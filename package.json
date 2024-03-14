@@ -3,10 +3,12 @@
     "body-parser": "^1.20.2",
     "eslint": "^8.57.0",
     "express": "^4.18.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "uuid": "^9.0.1"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "name": "myflix",
   "description": "This web application will provide users with access to information about different <br> movies, directors, and genres. Users will be able to sign up, update their <br>  personal information, and create a list of their favorite movies.",
@@ -14,5 +16,8 @@
   "main": "index.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
 }

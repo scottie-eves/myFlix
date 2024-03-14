@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
     <title>Documentation</title>
 </head>
     <body>
@@ -12,6 +12,27 @@
             This web application will provide users with access to information about different
             movies, directors, and genres. Users will be able to sign up, update their
             personal information, and create a list of their favorite movies.
+
+            Endpoints: <br>
+            READ requests: <br>
+
+            localhost:8080/movies (Gets a list of movies) <br>
+            localhost:8080/movies/:title (Gets a specific movie by the Title) <br>
+            localhost:8080/movies/genre/:genreName (Gets movies by the Genre) <br>
+            localhost:8080/movies/directors/:directorName (Gets movies by the Director) <br>
+
+            CREATE requests: <br>
+            localhost:8080/users (Creates a new user) <br>
+            localhost:8080/users/:id/:movieTitle (Creates new movie to favorites list) <br>
+
+            UPDATE requests: <br>
+            localhost:8080/users/:id (Updates user name) <br>
+
+            DELETE requests: <br>
+            localhost:8080/users/:id/:movieTitle (Removes a movie from favorite movie list) <br>
+            localhost:8080/users/:id/ (Removes a user) <br>
+
+
         </p>
         <script src="index.js"></script>
     </body>
