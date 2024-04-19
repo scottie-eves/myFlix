@@ -21,66 +21,66 @@ app.use(express.static('public'));
 
 app.use(bodyParser.json());
 
-let users = [
-  {
-    id: 1,
-    name: "Scott",
-    favoriteMovie: ["Tenacious D and the Pick of Destiny"]
-  },
-  {
-    id: 2,
-    name: "Sam",
-    favoriteMovie: []
-  },
-  {
-    id: 3,
-    name: "Mary",
-    favoriteMovie: []
-  }
-]
+// let users = [
+//   {
+//     id: 1,
+//     name: "Scott",
+//     favoriteMovie: ["Tenacious D and the Pick of Destiny"]
+//   },
+//   {
+//     id: 2,
+//     name: "Sam",
+//     favoriteMovie: []
+//   },
+//   {
+//     id: 3,
+//     name: "Mary",
+//     favoriteMovie: []
+//   }
+// ]
 
 // this will eventually get data from an external database. For now the "in memory" data will do.
 
-let movies = [
-  {
-    "Title": "Harry Potter",
-    "Genre": {
-      "Name": "Fantasy",
-      "Description": "Fantasy films are films that belong to the fantasy genre with fantastic themes, usually magic, supernatural events, mythology, folklore, or exotic fantasy worlds.",
-    },
-    "Director": {
-      "Name": "J.K. Rowling",
-      "Bio": "Born in Bristol"
-    },
-  },
-  {
-    "Title": "Lord of the Rings"
-  },
-  {
-    "Title": "Surfer Dude"
-  },
-  {
-    "Title": "Tenacious D and the Pick of Destiny"
-  },
-  {
-    "Title": "Blades of Glory"
-  },
-  {
-    "Title": "Coco"
-  },
-  {
-    "Title": "Monty Python and the Holy Grail"
-  },
-  {
-    "Title": "The Big Lebowski"
-  },
-  {
-    "Title": "Into the Wild"
-  },
-  {
-    "Title": "Eurotrip"
-  }
-];
+// let movies = [
+//   {
+//     "Title": "Harry Potter",
+//     "Genre": {
+//       "Name": "Fantasy",
+//       "Description": "Fantasy films are films that belong to the fantasy genre with fantastic themes, usually magic, supernatural events, mythology, folklore, or exotic fantasy worlds.",
+//     },
+//     "Director": {
+//       "Name": "J.K. Rowling",
+//       "Bio": "Born in Bristol"
+//     },
+//   },
+//   {
+//     "Title": "Lord of the Rings"
+//   },
+//   {
+//     "Title": "Surfer Dude"
+//   },
+//   {
+//     "Title": "Tenacious D and the Pick of Destiny"
+//   },
+//   {
+//     "Title": "Blades of Glory"
+//   },
+//   {
+//     "Title": "Coco"
+//   },
+//   {
+//     "Title": "Monty Python and the Holy Grail"
+//   },
+//   {
+//     "Title": "The Big Lebowski"
+//   },
+//   {
+//     "Title": "Into the Wild"
+//   },
+//   {
+//     "Title": "Eurotrip"
+//   }
+// ];
 
 // GET requests
 app.get('/', (req, res) => {
