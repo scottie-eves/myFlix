@@ -14,73 +14,16 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('common'));
-
 app.use(express.static('public'));
 
-app.use(bodyParser.json());
+let auth = require('./auth')(app);
 
-// let users = [
-//   {
-//     id: 1,
-//     name: "Scott",
-//     favoriteMovie: ["Tenacious D and the Pick of Destiny"]
-//   },
-//   {
-//     id: 2,
-//     name: "Sam",
-//     favoriteMovie: []
-//   },
-//   {
-//     id: 3,
-//     name: "Mary",
-//     favoriteMovie: []
-//   }
-// ]
+const passport = require('passport');
+require('./passport');
 
-// this will eventually get data from an external database. For now the "in memory" data will do.
-
-// let movies = [
-//   {
-//     "Title": "Harry Potter",
-//     "Genre": {
-//       "Name": "Fantasy",
-//       "Description": "Fantasy films are films that belong to the fantasy genre with fantastic themes, usually magic, supernatural events, mythology, folklore, or exotic fantasy worlds.",
-//     },
-//     "Director": {
-//       "Name": "J.K. Rowling",
-//       "Bio": "Born in Bristol"
-//     },
-//   },
-//   {
-//     "Title": "Lord of the Rings"
-//   },
-//   {
-//     "Title": "Surfer Dude"
-//   },
-//   {
-//     "Title": "Tenacious D and the Pick of Destiny"
-//   },
-//   {
-//     "Title": "Blades of Glory"
-//   },
-//   {
-//     "Title": "Coco"
-//   },
-//   {
-//     "Title": "Monty Python and the Holy Grail"
-//   },
-//   {
-//     "Title": "The Big Lebowski"
-//   },
-//   {
-//     "Title": "Into the Wild"
-//   },
-//   {
-//     "Title": "Eurotrip"
-//   }
-// ];
 
 // GET requests
 app.get('/', (req, res) => {
@@ -114,8 +57,15 @@ app.get('/users/:Username', async (req, res) => {
 });
 
 //READ 
-app.get('/movies', (req, res) => {
-  res.status(200).json(movies);
+app.get('/movies', passport.authenticate('jwt', { session: false}),  async (req, res) => {
+  await Movies.find()
+  .then((movies) => {
+    res.status(201).json(movies);
+  })
+  .catch((error) => {
+    console.error(error);
+    res.status(500).send('Error: ' + error);
+  });
 });
 
 // READ
@@ -157,7 +107,7 @@ app.post('/users', async (req, res) => {
   await Users.findOne({ Username: req.body.Username })
   .then((user) => {
     if (user) {
-      return res.status(400).send(req.body.Username + 'already exists');
+      return res.status(400).send(req.body.Username + ' already exists');
     } else {
       Users.create({
         Username: req.body.Username,
@@ -210,7 +160,12 @@ app.post('/users/:Username/movies/:MovieID', async (req, res) => {
 
 //UPDATE
 
-app.put('/users/:Username', async (req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+
+  if(req.user.Username !== req.params.Username){
+    return res.status(400).send('Permission denied');
+  }
+  
   await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
     {
       Username: req.body.Username,
