@@ -19,6 +19,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('common'));
 app.use(express.static('public'));
 
+const cors = require('cors');
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
+      return callback(new Error(message ), false);
+    }
+    return callback(null, true);
+  }
+}));
+
 let auth = require('./auth')(app);
 
 const passport = require('passport');
@@ -104,6 +118,7 @@ app.get('/movies/directors/:directorName', (req, res) => {
 
 //CREATE
 app.post('/users', async (req, res) => {
+  let hashedPassword = Users.hashedPassword(req.body.Password);
   await Users.findOne({ Username: req.body.Username })
   .then((user) => {
     if (user) {
@@ -111,7 +126,7 @@ app.post('/users', async (req, res) => {
     } else {
       Users.create({
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: hashedPassword,
         Email: req.body.Email,
         Birthday: req.body.Birthday
       })
@@ -165,7 +180,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
   if(req.user.Username !== req.params.Username){
     return res.status(400).send('Permission denied');
   }
-  
+
   await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
     {
       Username: req.body.Username,
@@ -217,7 +232,7 @@ app.delete('/users/:id/:movieTitle', (req, res) => {
 //DELETE
 
 app.delete('/users/:Username', async (req, res) => {
-  await Users.findOneAndRemove({ Username: req.params.Username })
+  await Users.findOneAndDelete({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
         res.status(400).send(req.params.Username + ' was not found');
