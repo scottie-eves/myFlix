@@ -38,6 +38,7 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
+const { check, validationResult } = require('express-validator');
 
 // GET requests
 app.get('/', (req, res) => {
@@ -118,6 +119,18 @@ app.get('/movies/directors/:directorName', (req, res) => {
 
 //CREATE
 app.post('/users', async (req, res) => {
+  [
+    check('Username', 'Username is required').isLength({min: 5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+  ], async (req, res) => {
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+  }
   let hashedPassword = Users.hashedPassword(req.body.Password);
   await Users.findOne({ Username: req.body.Username })
   .then((user) => {
@@ -266,6 +279,7 @@ app.use((err, req, res, next) => {
 });
 
 // listen for requests
-app.listen(8080, () => {
-  console.log('Your Movie app is listening on port 8080.');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+  console.log('Listening on Port ' + port);
 });

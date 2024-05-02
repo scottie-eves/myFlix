@@ -5,6 +5,7 @@
     "cors": "^2.8.5",
     "eslint": "^8.57.0",
     "express": "^4.19.2",
+    "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.3.2",
     "morgan": "^1.10.0",
@@ -14,7 +15,7 @@
     "uuid": "^9.0.1"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "node index.js",
     "dev": "nodemon server.js"
   },
   "name": "myflix",
