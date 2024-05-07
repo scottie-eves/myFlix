@@ -118,8 +118,8 @@ app.get('/movies/directors/:directorName', (req, res) => {
   }
 });
 
-
 //CREATE
+
 app.post('/users', async (req, res) => {
   [
     check('Username', 'Username is required').isLength({min: 5}),
@@ -174,20 +174,6 @@ app.post('/users/:Username/movies/:MovieID', async (req, res) => {
   });
 });
 
-// OLD CODE
-// app.post('/users/:id/:movieTitle', (req, res) => {
-//   const { id, movieTitle } = req.params;
-
-//   let user = users.find( user => user.id == id );
-
-//   if (user) {
-//     user.favoriteMovie.push(movieTitle);
-//     res.status(200).send(`${movieTitle} has been added to user ${id}'s array`);
-//   } else {
-//     res.status(400).send('No user found.');
-//   }
-// });
-
 //UPDATE
 
 app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -213,22 +199,6 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
     res.status(500).send('Error: '+ err);
   })
 });
-
-// OLD CODE
-// app.put('/users/:id', (req, res) => {
-//   const { id } = req.params;
-//   const updatedUser = req.body;
-
-//   let user = users.find( user => user.id == id );
-
-//   if (user) {
-//     user.name = updatedUser.name;
-//     res.status(200).json(user);
-//   } else {
-//     res.status(400).send('No user found.');
-//   }
-// });
-
 
 //DELETE
 app.delete('/users/:id/:movieTitle', (req, res) => {
@@ -260,20 +230,6 @@ app.delete('/users/:Username', async (req, res) => {
       res.status(500).send('Error: ' + err);
     });
 });
-
-// OLD CODE
-// app.delete('/users/:id/', (req, res) => {
-//   const { id } = req.params;
-
-//   let user = users.find( user => user.id == id );
-
-//   if (user) {
-//     user = users.filter( user => user.id != id );
-//     res.status(200).send(`User ${id} has been removed`);
-//   } else {
-//     res.status(400).send('No user found.');
-//   }
-// });
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
