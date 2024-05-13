@@ -87,10 +87,11 @@ app.get('/movies', passport.authenticate('jwt', { session: false}),  async (req,
 
 // READ
 app.get('/movies/:title', async (req, res) => {
+  await Movies.find()
   const { title } = req.params;
-  const movie = movie.find( movie => movie.Title === title );
+  const movie = Movies.find( movie => Movies.Title === title );
   if (movie) {
-    res.status(200).json(movie.title);
+    res.status(200).json(Movies);
   } else {
     res.status(400).send('No movie was found.');
   }
