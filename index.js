@@ -201,17 +201,19 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
 });
 
 //DELETE
-app.delete('/users/:id/:movieTitle', (req, res) => {
-  const { id, movieTitle } = req.params;
 
-  let user = users.find( user => user.id == id );
-
-  if (user) {
-    user.favoriteMovie = user.favoriteMovie.filter( title => title !== movieTitle);
-    res.status(200).send(`${movieTitle} has been removed from user ${id}'s array`);
-  } else {
-    res.status(400).send('No user found.');
-  }
+app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
+  await Users.findOneAndDelete({ Username: req.params.Username }, {
+     $pullAll: { FavoriteMovies: req.params.MovieID }
+   },
+   { new: true }) // This line makes sure that the updated document is returned
+  .then((movieID) => {
+    res.status(200).send(`${movieID} has been removed from the user ${Username}'s array`);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(400).send('Error: No user found');
+  });
 });
 
 //DELETE
