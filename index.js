@@ -203,12 +203,12 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
 //DELETE
 
 app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
-  await Users.findOneAndDelete({ FavoriteMovies: req.params.MovieID }, {
-     $pullAll: { FavoriteMovies: req.params.MovieID }
+  await Users.findOneAndDelete({ Username: req.params.Username }, {
+     $pull: { FavoriteMovies: req.params.MovieID }
    },
    { new: true }) // This line makes sure that the updated document is returned
-  .then((movieID) => {
-    res.status(200).send(`${movieID} has been removed from the user ${Username}'s array`);
+  .then((updatedUser) => {
+    res.json(updatedUser);
   })
   .catch((err) => {
     console.error(err);
