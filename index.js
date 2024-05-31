@@ -86,9 +86,9 @@ app.get('/movies', passport.authenticate('jwt', { session: false}),  async (req,
 });
 
 // READ
-app.get('/movies/:title?', async (req, res) => {
+app.get('/movies/:title', async (req, res) => {
   const { title } = req.params.title;
-  const movie = movie.find( movies => movies.Title === title );
+  const movie = movie.find( movies => movies.Title === title ).title;
   if (movie) {
     res.status(200).json(movie);
   } else {
@@ -97,7 +97,7 @@ app.get('/movies/:title?', async (req, res) => {
 });
 
 //READ
-app.get('/movies/genre/:genreName?', async (req, res) => {
+app.get('/movies/genre/:genreName', async (req, res) => {
   const { genreName } = req.params.genreName;
   const genre = movie.find( movie => movie.Genre.Name === genreName ).Genre;
   if (genre) {
@@ -108,7 +108,7 @@ app.get('/movies/genre/:genreName?', async (req, res) => {
 });
 
 //READ
-app.get('/movies/directors/:directorName?', async (req, res) => {
+app.get('/movies/directors/:directorName', async (req, res) => {
   const { directorName } = req.params.directorName;
   const director = movie.find( movie => movie.Director.Name === directorName ).Director;
   if (director) {
