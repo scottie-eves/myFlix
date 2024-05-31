@@ -86,27 +86,15 @@ app.get('/movies', passport.authenticate('jwt', { session: false}),  async (req,
 });
 
 // READ
-
-app.get('/movies/:title', async (req, res) => {
-  await movies.findOne({ title: req.params.title })
-  .then((title) => {
-    res.json(title);
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(400).send('No movie was found');
-  });
+app.get('/movies/:title', (req, res) => {
+  const { title } = req.params.title;
+  const movie = movies.find( movie => movie.Title === title );
+  if (movie) {
+    res.status(200).json(movie);
+  } else {
+    res.status(400).send('No movie was found.');
+  }
 });
-
-// app.get('/movies/:title', (req, res) => {
-//   const { title } = req.params.title;
-//   const movie = movies.find( movie => movie.Title === title );
-//   if (movie) {
-//     res.status(200).json(movie);
-//   } else {
-//     res.status(400).send('No movie was found.');
-//   }
-// });
 
 //READ
 app.get('/movies/genre/:genreName', (req, res) => {
