@@ -97,7 +97,7 @@ res.status(500).send('Error: ' + err);
 });
 
 //READ
-app.get('/movies/genre/:genreName', async (req, res) => {
+app.get('/movies/genre/:Name', async (req, res) => {
   await Movies.findOne({ "Genre.Name": req.params.Name })
   .then((movies) => {
     res.status(201).json(movies.Genre);
