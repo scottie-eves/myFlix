@@ -88,7 +88,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false}),  async (req,
 // READ
 app.get('/movies/:Title', async (req, res) => {
   const { Title } = req.params.Title;
-  const movie = movie.find( movies => movies.Title === Title ).Title;
+  const movie = Movies.find( movies => movies.Title === Title ).Title;
   if (movie) {
     res.status(200).json(movie);
   } else {
