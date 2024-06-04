@@ -108,14 +108,14 @@ app.get('/movies/genre/:Name', async (req, res) => {
 });
 
 //READ
-app.get('/movies/directors/:directorName', async (req, res) => {
-  const { directorName } = req.params.directorName;
-  const director = movie.find( movie => movie.Director.Name === directorName ).Director;
-  if (director) {
-    res.status(200).json(director);
-  } else {
-    res.status(400).send('No director was found.');
-  }
+app.get('/movies/directors/:Name', async (req, res) => {
+  await Movies.findOne({ "Director.Name": req.params.Name })
+  .then((movies) => {
+    res.status(201).json(movies.Director);
+  })
+  .catch((err) => {
+    res.status(500).send('Error: ' + err);
+  });
 });
 
 //CREATE
