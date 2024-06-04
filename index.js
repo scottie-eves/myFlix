@@ -88,8 +88,8 @@ app.get('/movies', passport.authenticate('jwt', { session: false}),  async (req,
 // READ
 app.get('/movies/:Title', async (req, res) => {
   await Movies.findOne({ Title: req.params.Title })
-  .then((movie) => {
-    res.json(movie);
+  .then((movies) => {
+    res.status(201).json(movies);
   })
   .catch((err) => {
 res.status(500).send('Error: ' + err);
@@ -98,13 +98,13 @@ res.status(500).send('Error: ' + err);
 
 //READ
 app.get('/movies/genre/:genreName', async (req, res) => {
-  const { genreName } = req.params.genreName;
-  const genre = movie.find( movie => movie.Genre.Name === genreName ).Genre;
-  if (genre) {
-    res.status(200).json(genre);
-  } else {
-    res.status(400).send('No genre was found.');
-  }
+  await Movies.findOne({ Genre: req.params.Genre })
+  .then((movies) => {
+    res.status(201).json(movies);
+  })
+  .catch((err) => {
+    res.status(500).send('Error: ' + err);
+  });
 });
 
 //READ
