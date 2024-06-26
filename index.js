@@ -22,7 +22,7 @@ app.use(morgan('common'));
 app.use(express.static('public'));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'https://flix-vault-253ef352783e.herokuapp.com/'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://flixnow.netlify.app/'];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -51,7 +51,7 @@ app.get('/documentation', (req, res) => {
   res.sendFile('public/documentation.html', { root: __dirname });
 });
 
-app.get('/users', async (req, res) => {
+app.get('/users', passport.authenticate('jwt', { session: false}), async (req, res) => {
   await Users.find()
     .then((users) => {
       res.status(201).json(users);
@@ -62,7 +62,7 @@ app.get('/users', async (req, res) => {
     });
 });
 
-app.get('/users/:Username', async (req, res) => {
+app.get('/users/:Username', passport.authenticate('jwt', { session: false}), async (req, res) => {
   await Users.findOne({ Username: req.params.Username })
   .then((user) => {
     res.json(user);
@@ -120,7 +120,7 @@ app.get('/movies/directors/:Name', async (req, res) => {
 
 //CREATE
 
-app.post('/users', async (req, res) => {
+app.post('/users', passport.authenticate('jwt', { session: false}), async (req, res) => {
   [
     check('Username', 'Username is required').isLength({min: 5}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
