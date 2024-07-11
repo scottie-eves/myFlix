@@ -22,7 +22,7 @@ app.use(morgan('common'));
 app.use(express.static('public'));
 
 const cors = require('cors');
-let allowedOrigins = ['Access-Control-Allow-Origin', 'http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://flixnow.netlify.app/', 'https://flix-vault-253ef352783e.herokuapp.com/'];
+// let allowedOrigins = ['Access-Control-Allow-Origin', 'http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://flixnow.netlify.app/', 'https://flix-vault-253ef352783e.herokuapp.com/'];
 
 app.use(cors());
 
