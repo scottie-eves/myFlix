@@ -122,7 +122,7 @@ app.get('/movies/directors/:Name', async (req, res) => {
 
 //CREATE
 
-app.post('/users', passport.authenticate('jwt', { session: false}), async (req, res) => {
+app.post('/users', async (req, res) => {
   [
     check('Username', 'Username is required').isLength({min: 5}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
